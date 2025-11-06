@@ -15,7 +15,7 @@ jobs:
     unit-testing:
         strategy:
           matrix:
-            nodejs_version: [18,19,20]
+            nodejs_version: [18,20]
             os: [ubuntu-latest, macos-latest]
             exclude:
               - nodejs_version: 18
@@ -38,6 +38,7 @@ jobs:
               run: npm test
             
             - name: Archive Unit Test result
+              if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: Mocha-Test-Result-${{matrix.os}}-node${{matrix.nodejs_version}}
