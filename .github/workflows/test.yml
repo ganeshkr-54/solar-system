@@ -1,0 +1,37 @@
+name: Test Solar System Workflow 
+on:
+    workflow_dispatch: 
+    push:
+        branches: 
+           - main
+           - 'feature/*'
+
+jobs:
+    dev-deploy:
+        #needs: Docker
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Checkout Repo
+              uses: actions/checkout@v5
+            
+            - name: install kubectl
+              uses: azure/setup-kubectl@v4
+              with:
+               version: 'v1.34.0' # default is latest stabl
+            
+            - name: configure kubeconfig
+              uses: azure/k8s-set-context@v4
+              with:
+                  method: kubeconfig
+                  kubeconfig: ${{secrets.KUBECONFIG}}
+                
+                    
+            - name: kubectl config
+              run: |
+                kubectl version
+                echo ------------
+                kubectl get nodes
+
+                
+
+
