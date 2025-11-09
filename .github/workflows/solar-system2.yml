@@ -1,10 +1,10 @@
 name: Solar System Workflow 2
 on:
     workflow_dispatch: 
-    #push:
-        #branches: 
-           # - main
-           # - 'feature/*'
+    push:
+        branches: 
+           - main
+           - 'feature/*'
 
 env:
     MONGO_URI: ${{vars.MONGO_URI}}
@@ -180,7 +180,7 @@ jobs:
             kubectl version
             echo ------------
             kubectl get nodes
-            
+
 
             
 
