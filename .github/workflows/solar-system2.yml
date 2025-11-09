@@ -153,14 +153,27 @@ jobs:
         - name: Checkout Repo
           uses: actions/checkout@v5
         
-        - uses: azure/setup-kubectl@v4
+        - name: install kubectl
+          uses: azure/setup-kubectl@v4
           with:
            version: 'v1.34.0' # default is latest stable
-        
-        - uses: azure/k8s-set-context@v4
+          
+        - name: Create kind cluster
+          uses: helm/kind-action@v1
           with:
-              method: kubeconfig
-              kubeconfig: ${{secrets.KUBECONFIG}}
+            version: v1.34.0  # optional
+
+        - name: Verify cluster
+          run: |
+            kubectl cluster-info
+            kubectl get nodes
+
+        
+        # - name: configure kubeconfig
+        #   uses: azure/k8s-set-context@v4
+        #   with:
+        #       method: kubeconfig
+        #       kubeconfig: ${{secrets.KUBECONFIG}}
               
                 
         - name: kubectl config
