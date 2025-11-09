@@ -1,10 +1,10 @@
 name: Solar System Workflow 2
 on:
     workflow_dispatch: 
-    push:
-        branches: 
-            - main
-            - 'feature/*'
+    # push:
+    #     branches: 
+    #         - main
+    #         - 'feature/*'
 
 env:
     MONGO_URI: ${{vars.MONGO_URI}}
@@ -156,22 +156,23 @@ jobs:
         - name: install kubectl
           uses: azure/setup-kubectl@v4
           with:
-           version: 'v1.34.0' # default is latest stable
+           version: 'v1.31.4' # default is latest stable
           
-        # - name: Create Kind cluster locally in the runner
-        #   uses: helm/kind-action@v1.10.0
-        #   with:
-        #     version: 1.34.0   # no "v"
-        #     cluster_name: chart-testing
-        #     wait: 60s
+        - name: Create Kind Cluster
+          uses: helm/kind-action@v1.10.0
+          with:
+            version: 1.34.0             # Kind version
+            kubectl_version: v1.31.4     # Kubectl version to install
+            cluster_name: mycluster       # Optional cluster name
+            wait: 120s                   # Wait time until ready
 
 
         
-        - name: configure kubeconfig
-          uses: azure/k8s-set-context@v4
-          with:
-              method: kubeconfig
-              kubeconfig: ${{secrets.KUBECONFIG}}
+        # - name: configure kubeconfig
+        #   uses: azure/k8s-set-context@v4
+        #   with:
+        #       method: kubeconfig
+        #       kubeconfig: ${{secrets.KUBECONFIG}}
               
                 
         - name: kubectl config
